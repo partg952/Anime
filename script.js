@@ -76,28 +76,31 @@ function getAnime() {
             }, 2)
         })
 
-    }).catch(() => {
+    }).catch((err) => {
         num = num + 1
-        parent_div.removeChild(div)
+        if (parent_div.contains(div)) {
+            parent_div.removeChild(div)
+        }
+
     })
 
 
 
 }
 
-var interval = setInterval(getAnime, 100)
+var interval = setInterval(getAnime, 400)
 
 
 button.addEventListener("click", () => {
 
-    fetchAnimeOnClick();
+    fetchAnimeOnClick(interval);
 })
 
 search.addEventListener("change", () => {
-    fetchAnimeOnClick()
+    fetchAnimeOnClick(interval)
 })
 
-function fetchAnimeOnClick() {
+function fetchAnimeOnClick(interval) {
     num2 = 0
     if (search.value.length != 0) {
 
@@ -188,7 +191,9 @@ function fetchAnimeOnClick() {
 
             // console.log("Searched Url Is " + blob.result.image_url)
         }).catch(() => {
-            alert("Fetching Failed, Please Try Again")
+            // alert("Fetching Failed, Please Try Again")
+            fetchAnimeOnClick()
+
         })
 
 
