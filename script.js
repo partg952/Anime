@@ -1,7 +1,10 @@
 let num = 0
 let parent_div = document.getElementById("main-container")
 let search_container = document.getElementById("search")
-let num2=0
+let num2 = 0
+
+let title_array = []
+let url_array = []
 
 let search = document.createElement("input")
 let button = document.createElement("input")
@@ -25,15 +28,8 @@ function getAnime() {
     let themes = document.createElement("p")
     let time_duration = document.createElement("p")
 
-    parent_div.appendChild(div)
-    div.classList.add("class")
 
-    div.appendChild(image)
-    div.appendChild(themes)
-    div.appendChild(ending_themes)
-    div.appendChild(p2)
-    div.appendChild(time_duration)
-    div.appendChild(p)
+
 
 
     p2.classList.add("p")
@@ -41,8 +37,18 @@ function getAnime() {
     fetch("https://api.jikan.moe/v3/anime/" + num).then(response => {
         return response.json()
     }).then(blob => {
-        
+        parent_div.appendChild(div)
+        div.classList.add("class")
+
+        div.appendChild(image)
+        div.appendChild(themes)
+        div.appendChild(ending_themes)
+        div.appendChild(p2)
+        div.appendChild(time_duration)
+        div.appendChild(p)
+
         console.log(blob)
+        console.log(blob.title)
         p2.innerHTML = blob.title
         image.src = blob.image_url
         console.log(blob.image_url)
@@ -58,10 +64,25 @@ function getAnime() {
             console.log("null")
             time_duration.innerHTML = "Total Episodes: OnGoing"
         }
+
+
+
+        image.addEventListener('click', () => {
+            let href = blob.title
+
+            setTimeout(function () {
+                window.location.href = "https://en.wikipedia.org/wiki/" + blob.title
+                console.log(blob.title)
+            }, 2)
+        })
+
     }).catch(() => {
         num = num + 1
         parent_div.removeChild(div)
     })
+
+
+
 }
 
 var interval = setInterval(getAnime, 100)
@@ -69,40 +90,40 @@ var interval = setInterval(getAnime, 100)
 
 button.addEventListener("click", () => {
 
-fetchAnimeOnClick();
+    fetchAnimeOnClick();
 })
 
-search.addEventListener("change" , ()=>{
+search.addEventListener("change", () => {
     fetchAnimeOnClick()
 })
 
-function fetchAnimeOnClick(){
+function fetchAnimeOnClick() {
     num2 = 0
     if (search.value.length != 0) {
 
-        if(button.value == "Refresh"){
+        if (button.value == "Refresh") {
             while (parent_div.firstChild) {
                 console.log("first child")
-                parent_div.removeChild(parent_div.firstElementChild)
+                parent_div.removeChild(parent_div.firstChild)
             }
         }
 
-       
+
 
         while (parent_div.firstChild) {
             console.log("first child")
-            parent_div.removeChild(parent_div.firstElementChild)
+            parent_div.removeChild(parent_div.firstChild)
         }
 
 
         console.log("not Empty")
         clearInterval(interval)
         button.value = "Refresh"
-        
-        fetch('https://api.jikan.moe/v3/search/anime?q=' + search.value + '&page=1' + search.value + "&page=1").then(response => {
+
+        fetch('https://api.jikan.moe/v3/search/anime?q=' + search.value + '&page=1').then(response => {
             return response.json()
         }).then(blob => {
-            while(num2<50){
+            while (num2 < 50) {
                 console.log(blob.results[num2].type)
                 console.log(blob)
                 console.log(blob.results[num2].image_url)
@@ -114,10 +135,10 @@ function fetchAnimeOnClick(){
                 let image = document.createElement("img")
                 let themes = document.createElement("p")
                 let time_duration = document.createElement("p")
-    
+
                 parent_div.appendChild(div)
                 div.classList.add("class")
-    
+
                 div.appendChild(image)
                 div.appendChild(themes)
                 div.appendChild(ending_themes)
@@ -125,7 +146,8 @@ function fetchAnimeOnClick(){
                 div.appendChild(type)
                 div.appendChild(time_duration)
                 div.appendChild(p)
-                
+                title_array.push(blob.results[num2].title)
+                url_array.push(blob.results[num2].image_url)
                 p2.classList.add("p")
                 console.log(blob.results)
                 image.src = blob.results[num2].image_url
@@ -141,16 +163,37 @@ function fetchAnimeOnClick(){
                 if (time_duration.innerHTML == "null") {
                     time_duration.innerHTML = "OnGoing"
                 }
-    
-    
+
+                image.addEventListener('click', () => {
+
+                    for (let i = 0; i < title_array.length; i++) {
+                        if (image.src === url_array[i]) {
+                            window.location.href = "https://en.wikipedia.org/wiki/" + title_array[i]
+
+                        }
+                    }
+
+                    let href = blob.title
+                    console.log("clicked")
+                    setTimeout(function () {
+
+                    }, 2)
+                })
+
                 num2++
             }
-            
+
+
+
+
             // console.log("Searched Url Is " + blob.result.image_url)
+        }).catch(() => {
+            alert("Fetching Failed, Please Try Again")
         })
+
+
 
     } else {
         window.location.reload()
     }
 }
-
