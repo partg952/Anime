@@ -39,7 +39,7 @@ function getAnime() {
     }).then(blob => {
         parent_div.appendChild(div)
         div.classList.add("class")
-
+        console.log("good")
         div.appendChild(image)
         div.appendChild(themes)
         div.appendChild(ending_themes)
