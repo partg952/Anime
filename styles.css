@@ -1,106 +1,111 @@
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
-
 body {
-    background-image: url(image.jpg);
-    text-align: center;
-    background-repeat: repeat;
-    background-size: cover;
-    transition: all 0.3s ease-in-out;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
 }
 
-.class {
-    /* filter: blur(6px); */
-    background-color: transparent;
-    font-family: 'RocknRoll One', sans-serif;
-    border-radius: 5px;
-    box-shadow:0px 0px 10px 0px black ;
-    text-align: center;
-    align-items: center;
-    padding: 20px;
-    justify-content: center;
-    margin: 20px;
-    transition: all 0.3s ease-in-out;
-
+html {
+  scroll-behavior: smooth;
 }
 
+#upper {
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  top: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  position: -webkit-sticky;
+  position: sticky;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-family: 'Open Sans', sans-serif;
+  background-color: aqua;
+}
 
+#upper * {
+  padding: 10px;
+  font-family: 'Open Sans', sans-serif;
+  width: 50%;
+  border-radius: 4px;
+  border: 0px solid transparent;
+  -webkit-box-shadow: 0px 0px 3px 0px black inset;
+          box-shadow: 0px 0px 3px 0px black inset;
+}
+
+#upper button {
+  font-family: 'Open Sans', sans-serif;
+  width: 70px;
+}
+
+#upper img {
+  left: 3px;
+  position: static;
+  height: 80px;
+  width: 80px;
+}
+
+#main {
+  width: 100%;
+  place-items: center;
+  -webkit-column-gap: 30px;
+          column-gap: 30px;
+  row-gap: 30px;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (300px)[auto-fit];
+      grid-template-columns: repeat(auto-fit, 300px);
+}
+
+.div {
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 4px;
+  width: 300px;
+  height: auto;
+}
 
 img {
-    margin: 20px;
-    box-shadow: 0px 0px 20px 3px black;
-    transition: all 0.3s ease-in-out;
-border-radius:15px;
-border:4px solid;
-border-color:transparent;
-border-radius:15px;
+  border-radius: 6px;
 }
 
-img:hover {
-border:4px solid;
-border-color:white;
-border-radius:15px;
-    margin: 20px;
-    box-shadow: 0px 0px 20px 2px black;
+.div2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: auto;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.p {
-    color: hsl(0, 0%, 0%);
-    font-weight: 900;
-    font-size: 20px;
+.div2 div {
+  margin: 20px;
+  border: 2px solid black;
+  width: 50%;
+  height: auto;
 }
-
-.button {
-    border: 3px solid;
-    margin: 10px;
-    box-shadow: 0px 0px 4px 0px black inset;
-    background-color: transparent;
-    border-color: black;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-    font-family: 'RocknRoll One', sans-serif;
-    padding: 10px;
-    font-size: 15px;
-}
-
-.button:hover {
-    border: 3px solid;
-    margin: 10px;
-    background-color: white;
-    border-color: black;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-    font-family: 'RocknRoll One', sans-serif;
-    padding: 10px;
-    font-size: 15px;
-}
-
-#specials-main {
-    display: flex;
-    visibility: hidden;
-    overflow: auto;
-}
-
-#movie-main {
-    display: flex;
-    overflow: auto;
-
-}
-
-#tv-main {
-    display: flex;
-    overflow: auto;
-
-}
-
-
-#ova-main {
-    display: flex;
-    overflow: auto;
-
-}
-
-#specials {
-    height: min-content;
-                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                
-}
+/*# sourceMappingURL=styles.css.map */

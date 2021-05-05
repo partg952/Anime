@@ -1,204 +1,92 @@
+let main = document.getElementById('main')
+let text = document.getElementById('search-text')
+let button = document.getElementById('search-button')
 let num = 0
-let parent_div = document.getElementById("main-container")
-let search_container = document.getElementById("search")
-let num2 = 0
-
-let title_array = []
 let url_array = []
-
-let search = document.createElement("input")
-let button = document.createElement("input")
-button.type = "button"
-search_container.appendChild(search)
-search_container.appendChild(button)
-button.value = "Search"
-button.classList.add("button")
-search.classList.add("button")
-search.style.width = "500px"
-
-
-
-
-function getAnime() {
-    let ending_themes = document.createElement("p")
-    let div = document.createElement("div")
-    let p = document.createElement("p")
-    let p2 = document.createElement("p")
-    let image = document.createElement("img")
-    let themes = document.createElement("p")
-    let time_duration = document.createElement("p")
-
-
-
-
-
-    p2.classList.add("p")
-    num = num + 1
-    fetch("https://api.jikan.moe/v3/anime/" + num).then(response => {
-        return response.json()
-    }).then(blob => {
-        parent_div.appendChild(div)
-        div.classList.add("class")
-        console.log("good")
-        div.appendChild(image)
-        div.appendChild(themes)
-        div.appendChild(ending_themes)
-        div.appendChild(p2)
-        div.appendChild(time_duration)
-        div.appendChild(p)
-
-        console.log(blob)
-        console.log(blob.title)
-        p2.innerHTML = blob.title
-        image.src = blob.image_url
-        console.log(blob.image_url)
-        themes.innerHTML = "Opening Themes: " + blob.opening_themes + "\n"
-        time_duration.innerHTML = "Total episodes:" + blob.episodes
-        ending_themes.innerHTML = "Ending Themes: " + blob.ending_themes + "\n"
-        p.innerHTML = blob.synopsis
-        //    time_duration.innerHTML = blob.prop.from.day + "/" + blob.prop.from.month + "/" + blob.prop.from.year + "-" + + blob.prop.to.day + "/" + blob.prop.to.month + "/" + blob.prop.to.year
-        if (p.innerHTML == "undefined") {
-            document.body.removeChild(div)
-        }
-        if (time_duration.innerHTML.includes("null")) {
-            console.log("null")
-            time_duration.innerHTML = "Total Episodes: OnGoing"
-        }
-
-
-
-        image.addEventListener('click', () => {
-            let href = blob.title
-
-            setTimeout(function () {
-                window.location.href = "https://en.wikipedia.org/wiki/" + blob.title
-                console.log(blob.title)
-            }, 2)
-        })
-
-    }).catch((err) => {
-        num = num + 1
-        if (parent_div.contains(div)) {
-            parent_div.removeChild(div)
-        }
-
-    })
-
-
-
+button.onclick = () => {
+    fetchOnClick();
+}
+text.onchange = () => {
+    fetchOnClick();
 }
 
-var interval = setInterval(getAnime, 400)
+function fetchOnClick() {
+    if(text.value.length!=0){
+        url_array = []
+    fetch("https://api.jikan.moe/v3/search/anime?q=" + text.value + "&page=1")
+        .then(res => res.json())
+        .then(anime => {
+            clearInterval(interval)
+            while (main.firstChild) {
+                main.removeChild(main.firstChild)
 
-
-button.addEventListener("click", () => {
-
-    fetchAnimeOnClick(interval);
-})
-
-search.addEventListener("change", () => {
-    fetchAnimeOnClick(interval)
-})
-
-function fetchAnimeOnClick(interval) {
-    num2 = 0
-    if (search.value.length != 0) {
-
-        if (button.value == "Refresh") {
-            while (parent_div.firstChild) {
-                console.log("first child")
-                parent_div.removeChild(parent_div.firstChild)
             }
-        }
-
-
-
-        while (parent_div.firstChild) {
-            console.log("first child")
-            parent_div.removeChild(parent_div.firstChild)
-        }
-
-
-        console.log("not Empty")
-        clearInterval(interval)
-        button.value = "Refresh"
-
-        fetch('https://api.jikan.moe/v3/search/anime?q=' + search.value + '&page=1').then(response => {
-            return response.json()
-        }).then(blob => {
-            while (num2 < 50) {
-                console.log(blob.results[num2].type)
-                console.log(blob)
-                console.log(blob.results[num2].image_url)
-                let ending_themes = document.createElement("p")
-                let div = document.createElement("div")
-                let p = document.createElement("p")
-                let p2 = document.createElement("p")
-                let type = document.createElement("p")
-                let image = document.createElement("img")
-                let themes = document.createElement("p")
-                let time_duration = document.createElement("p")
-
-                parent_div.appendChild(div)
-                div.classList.add("class")
-
-                div.appendChild(image)
-                div.appendChild(themes)
-                div.appendChild(ending_themes)
-                div.appendChild(p2)
-                div.appendChild(type)
-                div.appendChild(time_duration)
-                div.appendChild(p)
-                title_array.push(blob.results[num2].title)
-                url_array.push(blob.results[num2].image_url)
-                p2.classList.add("p")
-                console.log(blob.results)
-                image.src = blob.results[num2].image_url
-                type.innerText = "Type: " + blob.results[num2].type
-                p2.innerHTML = blob.results[num2].title
-                themes.innerHTML = "Rated: " + blob.results[num2].rated
-                time_duration.innerHTML = "Total episodes:" + blob.results[num2].episodes
-                p.innerHTML = blob.results[num2].synopsis
-                //    time_duration.innerHTML = blob.prop.from.day + "/" + blob.prop.from.month + "/" + blob.prop.from.year + "-" + + blob.prop.to.day + "/" + blob.prop.to.month + "/" + blob.prop.to.year
-                if (p.innerHTML == "undefined") {
-                    document.body.removeChild(div)
-                }
-                if (time_duration.innerHTML == "null") {
-                    time_duration.innerHTML = "OnGoing"
-                }
-
-                image.addEventListener('click', () => {
-
-                    for (let i = 0; i < title_array.length; i++) {
-                        if (image.src === url_array[i]) {
-                            window.location.href = "https://en.wikipedia.org/wiki/" + title_array[i]
-
+            console.log(anime)
+            for(let i=0;i<anime.results.length;i++){
+                url_array.push(anime.results[i].image_url)
+                let div = document.createElement('div')
+                let image = document.createElement('img')
+                let title = document.createElement('h4')
+                image.onclick = () => {
+                    for(let i=0;i<url_array.length;i++){
+                        if(image.src == url_array[i]){
+                            sessionStorage.setItem('id', anime.results[i].mal_id)
+                            window.location.href = "zoom.html"
                         }
+                        
                     }
+                    
+                }
+                
+                main.appendChild(div)
+                div.classList.add('div')
+                div.appendChild(image)
+                div.appendChild(title)
+                title.textContent = anime.results[i].title
+                image.src = anime.results[i].image_url
 
-                    let href = blob.title
-                    console.log("clicked")
-                    setTimeout(function () {
-
-                    }, 2)
-                })
-
-                num2++
             }
 
+        })
+    }
+    else{
+        window.location.reload();
+    }
+    
+}
 
-
-
-            // console.log("Searched Url Is " + blob.result.image_url)
+function fetchAnime() {
+    num += 1
+    let div = document.createElement('div')
+    let img = document.createElement('img')
+    let title = document.createElement('h3')
+    main.appendChild(div)
+    img.style.height = "60%"
+    img.style.width = "100%"
+    fetch("https://api.jikan.moe/v3/anime/" + num)
+        .then(res => res.json())
+        .then(anime => {
+            console.log(anime)
+            div.onclick = () => {
+                sessionStorage.setItem('id', anime.mal_id)
+                window.location.href = "zoom.html"
+            }
+            div.appendChild(img)
+            div.appendChild(title)
+            title.textContent = anime.title
+            img.src = anime.image_url
+            div.classList.add("div")
+            if (anime.image_url == null) {
+                main.removeChild(div)
+            }
         }).catch(() => {
-            // alert("Fetching Failed, Please Try Again")
-            fetchAnimeOnClick()
+            if (main.contains(div)) {
+                main.removeChild(div)
 
+            }
+            console.log("oh man")
         })
 
-
-
-    } else {
-        window.location.reload()
-    }
 }
+
+var interval = setInterval(fetchAnime, 100)
