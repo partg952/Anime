@@ -3,20 +3,24 @@ let text = document.getElementById('search-text')
 let button = document.getElementById('search-button')
 let num = 0
 let url_array = []
+var interval = setInterval(fetchAnime, 100)
 button.onclick = () => {
+    console.log("clicked")
     fetchOnClick();
 }
 text.onchange = () => {
     fetchOnClick();
+    console.log("clicked")
 }
 
 function fetchOnClick() {
     if(text.value.length!=0){
+        clearInterval(interval)
         url_array = []
     fetch("https://api.jikan.moe/v3/search/anime?q=" + text.value + "&page=1")
         .then(res => res.json())
         .then(anime => {
-            clearInterval(interval)
+            
             while (main.firstChild) {
                 main.removeChild(main.firstChild)
 
@@ -47,6 +51,8 @@ function fetchOnClick() {
 
             }
 
+        }).catch(()=>{
+            fetchOnClick();
         })
     }
     else{
@@ -89,4 +95,4 @@ function fetchAnime() {
 
 }
 
-var interval = setInterval(fetchAnime, 100)
+
